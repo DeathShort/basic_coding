@@ -37,6 +37,9 @@
 # print(mystack.pop())
 
 # 3. use queue.LifoQueue to create a stack
+# 与 deque 不同， LifoQueue 被设计为完全线程安全的。它的所有方法都可以在线程环境中安全使用。它还为其操作添加了可选的超时，这通常是线程程序中的必备功能。
+# 然而，这种完整的线程安全性是有代价的。为了实现这种线程安全， LifoQueue 必须对每个操作做一些额外的工作，这意味着它会花费更长的时间。
+# 通常，这种轻微的减慢对您的整体程序速度并不重要，但如果您测量了性能并发现堆栈操作是瓶颈，那么仔细切换到 deque 可能是值得的。
 from queue import LifoQueue
 
 mystack = LifoQueue()
@@ -48,3 +51,6 @@ print(mystack.get())
 print(mystack.get())
 print(mystack.get())
 print(mystack.get())
+
+# 一般来说，如果您不使用线程，则应该使用 deque 。如果您使用线程，那么您应该使用 LifoQueue ，除非您测量了性能并发现推送和弹出速度的小幅提升将产生足够的差异以保证维护风险。
+# list 可能很熟悉，但应该避免使用，因为它可能存在内存重新分配问题。 deque 和 list 的接口是相同的，并且 deque 没有这些问题，这使得 deque 成为您的最佳选择非线程Python 堆栈。
